@@ -2,6 +2,12 @@
     import { onMount } from 'svelte';
     import { fetchFromGo } from '$lib/api';
 
+    interface User {
+        user_id: string;
+        username: string; 
+        role: string;     
+    }
+
     interface Product {
         product_id: string;
         product_name: string;
@@ -25,7 +31,7 @@
         items: TransactionItem[];
         username?: string;
     }
-
+    let usersList = $state<User[]>([]);
     let products = $state<Product[]>([]);
     let history = $state<Transaction[]>([]);
     
@@ -33,11 +39,15 @@
     let isProcessing = $state(false);
     let showHistoryPopup = $state(false);
 
-    let currentUsername = $state('Loading...');
+    let currentUsername = $state('Loading....');
     let currentRole = $state('...');
 
     onMount(async () => {
-        await Promise.all([loadProfile(), loadProducts()]);
+        await Promise.all([
+            loadProfile(), 
+            loadProducts(),
+            loadUsersLookup() 
+        ]);
         isLoading = false;
     });
 
@@ -72,6 +82,23 @@
         } catch (e: any) {
             alert("Gagal ambil riwayat: " + e.message);
         }
+    }
+
+    async function loadUsersLookup() {
+        try {
+            const res = await fetchFromGo('/users');
+            usersList = Array.isArray(res) ? res : (res.data || []);
+            
+            console.log("Users loaded:", usersList.length);
+        } catch (e) {
+            console.error("Gagal load users lookup:", e);
+        }
+    }
+
+    function getUsernameById(id: string) {
+        if (!id) return "-";
+        const found = usersList.find(u => u.user_id === id);
+        return found ? found.username : id;
     }
 
     function increaseQty(id: string) {
@@ -165,7 +192,7 @@
 
     .produk { 
         position: relative; 
-        display: inline-block; 
+        display: inline-block;
         width: 30%;
         vertical-align: top; 
         margin-right: 2.5%; 
@@ -295,17 +322,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#if history.length === 0}
-                        <tr><td colspan="3" style="text-align:center; padding: 20px; color: gray;">Belum ada data transaksi.</td></tr>
-                    {:else}
-                        {#each history as trx}
-                            <tr>
-                                <td>{formatDate(trx.created_at)}</td>
-                                <td>Rp {formatMoney(trx.total_amount)}</td>
-                                <td>{trx.username || currentUsername}</td>
-                            </tr>
-                        {/each}
-                    {/if}
+                    {#each history as trx}
+                        <tr>
+                            <td>{formatDate(trx.created_at)}</td>
+                            <td>Rp {formatMoney(trx.total_amount)}</td>
+                            <td>
+                                {getUsernameById(trx.user_id)}
+                            </td>
+                        </tr>
+                    {/each}
                 </tbody>
             </table>
         </div>
