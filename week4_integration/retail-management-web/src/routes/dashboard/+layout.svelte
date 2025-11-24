@@ -1,6 +1,13 @@
 <script>
     import { page } from '$app/stores';
+    import { goto } from '$app/navigation';
     let { children } = $props();
+
+    function handleLogout(event) {
+        event.preventDefault();
+        document.cookie = "session_token=; path=/; max-age=0; SameSite=Lax";
+        goto('/auth');
+    }
 </script>
 
 <style>
@@ -38,6 +45,25 @@
         background-color: #c5c5c9; 
         scale: 105% 
     }
+    .catbutton_logout { 
+        color: white;
+        display: block; 
+        width: 100%; 
+        background-color: #fb3636; 
+        padding: 15px; 
+        margin-bottom: 15px; 
+        border: none; 
+        border-radius: 10px; 
+        cursor: pointer; 
+        text-align: center; 
+        font-weight: bold; 
+        text-decoration: none;       
+        transition: scale 0.1s ease;    
+    }
+    .catbutton_logout:hover { 
+        background-color: rgb(254, 0, 0); 
+        scale: 105% 
+    }
 
     .selaincategory { 
         margin-left: 250px; 
@@ -59,6 +85,7 @@
     <a href="/dashboard/products" class="catbutton">Products</a>
     <a href="/dashboard/inventory" class="catbutton">Inventory</a>
     <a href="/dashboard/transactions" class="catbutton">Transactions</a>
+    <a href="/auth" onclick={handleLogout} class="catbutton_logout">Logout</a>
 </div>
 
 <div class="selaincategory">
