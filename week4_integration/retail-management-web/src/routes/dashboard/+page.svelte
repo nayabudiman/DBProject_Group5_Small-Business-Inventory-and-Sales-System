@@ -1,9 +1,7 @@
 <style>
-    /* ... (Bagian RESET dan SIDEBAR biarkan sama) ... */
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
     
-    /* SIDEBAR SAMA SEPERTI SEBELUMNYA */
     .category { 
         float: left; 
         width: 250px; 
@@ -29,15 +27,11 @@
         scale: 105% 
     }
 
-    /* MAIN CONTENT SAMA */
     .selaincategory { margin-left: 250px; padding: 40px; background-color: #ffffff; min-height: 100vh; }
 
-    /* --- BAGIAN YANG DIPERBAIKI --- */
-
-    /* 4. HEADER AREA */
     .atas {
         width: 100%;
-        overflow: hidden;       /* Clearfix */
+        overflow: hidden;       
         margin-bottom: 40px;
         border-bottom: 2px solid #eee;
         padding-bottom: 20px;
@@ -45,19 +39,19 @@
 
     .ataskiri {
         float: left;
-        width: 50%;             /* Dikurangi biar kanan lebih luas */
+        width: 50%;
     }
 
     .ataskanan {
         float: right;
-        width: 50%;             /* Diperluas biar tombol muat */
-        text-align: right;      /* Isi rata kanan */
-        padding-top: 20px;      /* Sejajar dengan teks kiri */
+        width: 50%;             
+        text-align: right;      
+        padding-top: 20px;      
     }
 
-    /* Menggabungkan style tombol agar rapi & efisien */
+
     .btn-header {
-        display: inline-block;  /* KUNCI: Agar bisa sampingan */
+        display: inline-block;
         background-color: #007aff;
         color: white;
         padding: 10px 20px;
@@ -65,19 +59,16 @@
         border-radius: 20px;
         cursor: pointer;
         font-weight: bold;
-        margin-left: 10px;      /* Jarak antar tombol */
+        margin-left: 10px;
         text-decoration: none;
         font-size: 14px;
         transition: background-color 0.1s ease;
     }
 
     .btn-header:hover {
-        background-color: #00509f; /* Efek hover sedikit gelap */
+        background-color: #00509f; 
     }
-
-    /* --- END PERBAIKAN --- */
-
-    /* 5. PRODUCT CARD (SAMA SEPERTI SEBELUMNYA) */
+    
     .bawah { 
         display: block; 
     }
