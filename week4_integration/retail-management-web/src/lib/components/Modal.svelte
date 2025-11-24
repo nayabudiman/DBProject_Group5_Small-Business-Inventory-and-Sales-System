@@ -1,7 +1,6 @@
 <script lang="ts">
     let { show, title, onClose, children } = $props();
 
-    // Fungsi helper untuk keyboard event (agar warning hilang)
     function handleKeydown(e: KeyboardEvent) {
         if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
             onClose();
@@ -37,7 +36,6 @@
 {/if}
 
 <style>
-    /* CSS SAMA SEPERTI SEBELUMNYA */
     .backdrop {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -47,7 +45,7 @@
         align-items: center;
         z-index: 1000;
         animation: fadeIn 0.2s;
-        cursor: pointer; /* Tambahan agar terlihat bisa diklik */
+        cursor: pointer;
     }
 
     .modal-content {
@@ -58,7 +56,7 @@
         max-width: 90%;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         animation: slideUp 0.2s;
-        cursor: default; /* Kembalikan cursor jadi panah biasa di dalam modal */
+        cursor: default;
     }
 
     .modal-header {
