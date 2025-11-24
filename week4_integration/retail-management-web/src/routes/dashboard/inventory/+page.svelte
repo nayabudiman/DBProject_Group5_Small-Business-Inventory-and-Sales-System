@@ -1,6 +1,5 @@
 <style>
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
     
     .selaincategory {background-color: #ffffff; min-height: 100vh; }
 

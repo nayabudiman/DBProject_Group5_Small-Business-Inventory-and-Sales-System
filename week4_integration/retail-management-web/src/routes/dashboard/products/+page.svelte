@@ -6,7 +6,7 @@
 
     .atas {
         width: 100%;
-        overflow: hidden;       
+        overflow: hidden;
         margin-bottom: 40px;
         border-bottom: 2px solid #eee;
         padding-bottom: 20px;
