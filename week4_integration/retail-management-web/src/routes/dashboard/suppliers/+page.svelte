@@ -6,7 +6,7 @@
     interface Supplier {
         supplier_id: string;
         supplier_name: string;
-        phone: string;
+        phone_number: string;
         email: string;
     }
 
@@ -62,7 +62,7 @@
                 method: "POST",
                 body: JSON.stringify({
                     supplier_name: newName,
-                    phone: newPhone,
+                    phone_number: newPhone,
                     email: newEmail
                 })
             });
@@ -82,7 +82,7 @@
     function openUpdate(s: Supplier) {
         updateId = s.supplier_id;
         updateName = s.supplier_name;
-        updatePhone = s.phone;
+        updatePhone = s.phone_number;
         updateEmail = s.email;
 
         showUpdateModal = true;
@@ -93,10 +93,10 @@
 
         try {
             const res = await fetchFromGo(`/suppliers/${updateId}`, {
-                method: "PUT",
+                method: "PATCH",
                 body: JSON.stringify({
                     supplier_name: updateName,
-                    phone: updatePhone,
+                    phone_number: updatePhone,
                     email: updateEmail
                 })
             });
