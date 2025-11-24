@@ -121,12 +121,12 @@
 </style>
 
 <div class="category">
-    <button class="catbutton">Cat 1</button>
-    <button class="catbutton">Cat 2</button>
-    <button class="catbutton">Cat 3</button>
-    <button class="catbutton">Cat 4</button>
-    <button class="catbutton">Cat 5</button>
-    <button class="catbutton">Cat 6</button>
+    <button class="catbutton">User Management</button>
+    <button class="catbutton">Categories</button>
+    <button class="catbutton">Suppliers</button>
+    <button class="catbutton">Products</button>
+    <button class="catbutton">Inventory</button>
+    <button class="catbutton">Transactions</button>
 </div>
 
 <div class="selaincategory">
