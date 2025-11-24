@@ -100,7 +100,35 @@
         scale: 110%;
     }
 
-    .popup { 
+    .popupdetail{ 
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        background-color: white; 
+        padding: 30px; 
+        border-radius: 15px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        width: 400px; 
+        display: none; 
+        z-index: 1000; 
+    }
+
+    .popupadd{ 
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        background-color: white; 
+        padding: 30px; 
+        border-radius: 15px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        width: 400px; 
+        display: none; 
+        z-index: 1000; 
+    }
+
+    .popupupdate{ 
         position: fixed; 
         top: 50%; 
         left: 50%; 
@@ -128,9 +156,13 @@
         margin-bottom: 20px; 
         border-radius: 10px; 
     }   
-    .descpopup p { 
+    .descpopup p, input { 
         margin: 5px 0; 
         font-size: 16px; 
+    }
+
+    .descpopup input {
+        border-radius: 5px;
     }
 
     .closepopup { 
@@ -146,6 +178,21 @@
         color: #ff3b30; 
         scale: 125%
     }
+
+    .save{ 
+        background-color: transparent; 
+        border: none; 
+        font-size: 20px; 
+        cursor: pointer; 
+        font-weight: bold;
+        transition: scale 0.2s ease, color 0.1s ease;
+    }
+
+    .save:hover{ 
+        color: #44a81d; 
+        scale: 125%
+    }
+
 
 </style>
 
@@ -174,7 +221,7 @@
     </div>
 </div>
 
-<div class="popup">   
+<div class="popupdetail">   
     <div class="namapopup">
         <button class="closepopup">X</button>
         <h2><strong>Product Name</strong></h2>
@@ -186,5 +233,47 @@
         <p>Selling Price: [selling_price]</p>
         <p>Supplier: [supplier]</p>
         <p>Category [category]</p>
+    </div>
+</div>
+
+<div class="popupadd">   
+    <div class="namapopup">
+        <button class="closepopup">X</button>
+        <h2><strong>Product Name</strong></h2>
+        <button class="save">Save</button>
+    </div>
+    <div class="gambarpopup"></div>
+    <div class="descpopup">
+        <p>Product Name: </p>
+        <input type= "text" placeholder="insert name"/>
+        <p>Purchasing Price: </p>
+        <input type="text" placeholder="insert purchase price"/>
+        <p>Selling Price: </p>
+        <input type="text" placeholder="insert sell price"/>
+        <p>Supplier: </p>
+        <input type="text" placeholder="insert supplier"/>
+        <p>Category</p>
+         <input type="text" placeholder="insert category"/>
+    </div>
+</div>
+
+<div class="popupupdate">   
+    <div class="namapopup">
+        <button class="closepopup">X</button>
+        <h2><strong>Product Name</strong></h2>
+        <button class="save">Update</button>
+    </div>
+    <div class="gambarpopup"></div>
+    <div class="descpopup">
+        <p>In Stock: </p>
+        <input type= "text" placeholder="insert stock"/>
+        <p>Purchasing Price: </p>
+        <input type="text" placeholder="insert purchase price"/>
+        <p>Selling Price: </p>
+        <input type="text" placeholder="insert sell price"/>
+        <p>Supplier: </p>
+        <input type="text" placeholder="insert supplier"/>
+        <p>Category</p>
+         <input type="text" placeholder="insert category"/>
     </div>
 </div>
