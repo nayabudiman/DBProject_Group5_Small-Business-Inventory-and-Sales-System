@@ -164,6 +164,6 @@
         <p>Change Stock to: </p>
         <input type= "text" placeholder="insert new stock"/>
         <p>Reason: </p>
-        <input type= "text" placeholder="insert new Reason"/>
+        <input type= "text" placeholder="insert new reason"/>
     </div>
 </div>
