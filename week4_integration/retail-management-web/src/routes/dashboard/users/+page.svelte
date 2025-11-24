@@ -256,7 +256,6 @@
             <select id="role" bind:value={formRole}>
                 <option value="cashier">Cashier</option>
                 <option value="admin">Admin</option>
-                <option value="manager">Manager</option>
             </select>
         </div>
         <button type="submit" class="btn-submit">Simpan User</button>
@@ -280,7 +279,6 @@
             <select id="up_role" bind:value={updateRole}>
                 <option value="cashier">Cashier</option>
                 <option value="admin">Admin</option>
-                <option value="manager">Manager</option>
             </select>
         </div>
         <button type="submit" class="btn-submit">Update Perubahan</button>
