@@ -58,7 +58,7 @@ function openUpdate(product: Product) {
 }
 
 async function handleUpdate() {
-    if (updateQuantity === '' || updateQuantity === 0) {
+    if (updateQuantity === '' || updateQuantity <= 0) {
         return alert("Masukkan jumlah stock (lebih besar dari 0)");
     }
     if (!updateReason) return alert("Masukkan alasan perubahan stock");
