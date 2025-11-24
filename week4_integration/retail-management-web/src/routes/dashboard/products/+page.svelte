@@ -94,7 +94,7 @@
         top: 50%; 
         transform: translateY(-50%); 
     }
-    .delete, .update { 
+    .details, .delete, .update { 
         padding: 8px 15px; 
         border: none; 
         border-radius: 20px; 
@@ -102,6 +102,10 @@
         cursor: pointer; 
         font-size: 14px; 
         transition: scale 0.1s ease;
+    }
+    .details { 
+        background-color: rgb(62, 48, 255); 
+        color: white; 
     }
     .delete { 
         background-color: #ff3b30; 
@@ -117,6 +121,56 @@
     .delete:hover{
         scale: 110%;
     }
+    .details:hover{
+        scale: 110%;
+    }
+
+    .popup { 
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        background-color: white; 
+        padding: 30px; 
+        border-radius: 15px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        width: 400px; 
+        display: none; 
+        z-index: 1000; 
+    }
+
+    .namapopup { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        margin-bottom: 20px; 
+    }
+
+    .gambarpopup { 
+        width: 100%; 
+        height: 200px; 
+        background-color: #e0e0e0; 
+        margin-bottom: 20px; 
+        border-radius: 10px; 
+    }   
+    .descpopup p { 
+        margin: 5px 0; 
+        font-size: 16px; 
+    }
+
+    .closepopup { 
+        background-color: transparent; 
+        border: none; 
+        font-size: 20px; 
+        cursor: pointer; 
+        font-weight: bold;
+        transition: scale 0.2s ease, color 0.1s ease;
+    }
+
+    .closepopup:hover { 
+        color: #ff3b30; 
+        scale: 125%
+    }
 
 </style>
 
@@ -130,7 +184,6 @@
 </div>
 
 <div class="selaincategory">
-    
     <div class="atas">
         <div class="ataskiri">  
             <h1 style="margin:0; font-size: 24px;"><strong>WELCOME,</strong> [username]</h1>
@@ -147,10 +200,25 @@
         <div class="produk">
             <p class="productname">Product Name</p>
             <div class="tombolproduct">    
+                <button class="details">Details</button>
                 <button class="update">Update</button>
                 <button class="delete">Delete</button>
             </div>
         </div>
     </div>
+</div>
 
+<div class="popup">   
+    <div class="namapopup">
+        <button class="closepopup">X</button>
+        <h2><strong>Product Name</strong></h2>
+    </div>
+    <div class="gambarpopup"></div>
+    <div class="descpopup">
+        <p>In Stock: [stock]</p>
+        <p>Purchasing Price: [purchase_price]</p>
+        <p>Selling Price: [selling_price]</p>
+        <p>Supplier: [supplier]</p>
+        <p>Category [category]</p>
+    </div>
 </div>
