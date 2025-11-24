@@ -4,8 +4,8 @@
 
     interface User {
         user_id: string;
-        username: string; 
-        role: string;     
+        username: string;
+        role: string;
     }
 
     interface Product {
@@ -31,23 +31,24 @@
         items: TransactionItem[];
         username?: string;
     }
+
     let usersList = $state<User[]>([]);
     let products = $state<Product[]>([]);
     let history = $state<Transaction[]>([]);
     
     let isLoading = $state(true);
     let isProcessing = $state(false);
+    
     let showHistoryPopup = $state(false);
+    
+    let showItemDetailPopup = $state(false);
+    let selectedTransaction = $state<Transaction | null>(null);
 
-    let currentUsername = $state('Loading....');
+    let currentUsername = $state('Loading...');
     let currentRole = $state('...');
 
     onMount(async () => {
-        await Promise.all([
-            loadProfile(), 
-            loadProducts(),
-            loadUsersLookup() 
-        ]);
+        await Promise.all([loadProfile(), loadProducts(), loadUsersLookup()]);
         isLoading = false;
     });
 
@@ -64,35 +65,26 @@
         try {
             const res = await fetchFromGo('/products');
             let data = res.data || res;
-            
             products = data.map((p: any) => ({
                 ...p,
                 selling_price: parseFloat(p.selling_price),
                 qty_selected: 0
             }));
-        } catch (e: any) { 
-            alert("Gagal load inventory: " + e.message); 
-        }
+        } catch (e: any) { alert("Gagal load inventory: " + e.message); }
     }
 
     async function loadHistory() {
         try {
             const res = await fetchFromGo('/transactions');
             history = res.data || res; 
-        } catch (e: any) {
-            alert("Gagal ambil riwayat: " + e.message);
-        }
+        } catch (e: any) { alert("Gagal ambil riwayat: " + e.message); }
     }
 
     async function loadUsersLookup() {
         try {
             const res = await fetchFromGo('/users');
             usersList = Array.isArray(res) ? res : (res.data || []);
-            
-            console.log("Users loaded:", usersList.length);
-        } catch (e) {
-            console.error("Gagal load users lookup:", e);
-        }
+        } catch (e) { console.error("Gagal load users lookup:", e); }
     }
 
     function getUsernameById(id: string) {
@@ -121,7 +113,6 @@
 
     async function handleConfirmTransaction() {
         const itemsToBuy = products.filter(p => p.qty_selected > 0);
-
         if (itemsToBuy.length === 0) {
             alert("Pilih minimal satu produk untuk transaksi.");
             return;
@@ -135,7 +126,6 @@
         }
 
         isProcessing = true;
-
         try {
             const payload = {
                 items: itemsToBuy.map(p => ({
@@ -143,16 +133,9 @@
                     quantity: p.qty_selected
                 }))
             };
-
-            await fetchFromGo('/transactions', {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            });
-
+            await fetchFromGo('/transactions', { method: 'POST', body: JSON.stringify(payload) });
             alert("Transaksi Berhasil!");
-
             await loadProducts(); 
-            
         } catch (e: any) {
             alert("Transaksi Gagal: " + e.message);
         } finally {
@@ -160,9 +143,27 @@
         }
     }
 
+
     function openHistory() {
         loadHistory();
         showHistoryPopup = true;
+    }
+
+    async function openItemDetails(trx: Transaction) {
+        selectedTransaction = trx; 
+        showItemDetailPopup = true;
+        
+        try {
+            const res = await fetchFromGo(`/transactions/${trx.transaction_id}`);
+            const detailedData = res.data || res;
+            
+            selectedTransaction = detailedData;
+            
+            console.log("Detail loaded:", detailedData);
+        } catch (e) {
+            console.error("Gagal load detail:", e);
+            alert("Gagal mengambil detail item transaksi ini.");
+        }
     }
 
     function formatDate(dateStr: string) {
@@ -191,41 +192,20 @@
     .bawah { display: block; padding-right: 20px; }
 
     .produk { 
-        position: relative; 
-        display: inline-block;
-        width: 30%;
-        vertical-align: top; 
-        margin-right: 2.5%; 
-        margin-bottom: 30px; 
-        background-color: #f9f9f9; 
-        padding: 20px; 
-        border-radius: 15px; 
-        border: 1px solid #e0e0e0; 
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-        text-align: center;
-        transition: transform 0.1s ease, border-color 0.1s ease;
+        position: relative; display: inline-block; width: 30%; vertical-align: top; margin-right: 2.5%; margin-bottom: 30px; 
+        background-color: #f9f9f9; padding: 20px; border-radius: 15px; border: 1px solid #e0e0e0; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; transition: transform 0.1s ease, border-color 0.1s ease;
     }
-    
-    .produk.active {
-        border: 2px solid #007aff;
-        background-color: #f0f8ff;
-    }
-
-    .produk:hover {
-        background-color: #eaeaea;
-        transform: translateY(-2px);
-    }
+    .produk.active { border: 2px solid #007aff; background-color: #f0f8ff; }
+    .produk:hover { background-color: #eaeaea; transform: translateY(-2px); }
     
     .productname { margin: 0; font-size: 18px; font-weight: bold; display: block; line-height: 1.2; min-height: 45px; margin-bottom: 10px; }
     .productnamesection p, .stoksection p { margin: 5px 0; color: #666; }
-    
     .tombolproduct { display: inline-block; background-color: #e5e5ea; padding: 8px 15px; border-radius: 30px; margin-top: 15px; }
-    
     .kurang, .tambah { padding: 0; width: 30px; height: 30px; line-height: 30px; font-size: 18px; cursor: pointer; display: inline-block; border-radius: 50%; color: white; border: none; vertical-align: middle; transition: transform 0.1s ease; }
     .kurang { background-color: #ff3b30; margin-right: 10px; }
     .tambah { background-color: #34c759; margin-left: 10px; }
     .kurang:hover, .tambah:hover { transform: scale(1.1); }
-    
     .quantity { display: inline-block; font-size: 18px; font-weight: bold; width: 30px; vertical-align: middle; background: none; }
 
     .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
@@ -233,10 +213,12 @@
     .popup { 
         position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
         background-color: white; padding: 25px; border-radius: 15px; 
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-        width: 700px; max-width: 90%; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); width: 700px; max-width: 90%; 
         z-index: 1000; 
     }
+
+    .popup-nested-overlay { z-index: 2000; }
+    .popup-nested { z-index: 2001; width: 600px; }
 
     .namapopup { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
     .namapopup h2 { margin: 0; font-size: 20px; }
@@ -249,16 +231,15 @@
     .history-table th, .history-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #f0f0f0; }
     .history-table th { background-color: #f2f2f7; font-weight: bold; position: sticky; top: 0; }
     .history-table tr:nth-child(even) { background-color: #fcfcfc; }
-    .history-table th:first-child, 
-    .history-table td:first-child {
-        white-space: nowrap; 
-        width: 25%;
-        }
-    .history-table td:nth-child(2) {
-        text-align: left; 
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
+    
+    .history-table th:first-child, .history-table td:first-child { white-space: nowrap; width: 25%; }
+    .history-table td:nth-child(2) { text-align: left; font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+
+    .btn-detail {
+        background-color: #5856d6; color: white; border: none; padding: 6px 12px; 
+        border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: bold;
     }
+    .btn-detail:hover { background-color: #4b49b6; }
 </style>
 
 <div class="selaincategory">
@@ -319,18 +300,66 @@
                         <th>Date Time</th>
                         <th>Total Amount</th>
                         <th>User</th>
-                    </tr>
+                        <th>Action</th> </tr>
                 </thead>
                 <tbody>
                     {#each history as trx}
                         <tr>
                             <td>{formatDate(trx.created_at)}</td>
                             <td>Rp {formatMoney(trx.total_amount)}</td>
-                            <td>
-                                {getUsernameById(trx.user_id)}
+                            <td>{getUsernameById(trx.user_id)}</td>
+                            <td style="text-align: center;">
+                                <button class="btn-detail" onclick={() => openItemDetails(trx)}>
+                                    Details
+                                </button>
                             </td>
                         </tr>
                     {/each}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{/if}
+
+{#if showItemDetailPopup && selectedTransaction}
+    <div class="popup-overlay popup-nested-overlay" onclick={() => showItemDetailPopup = false} role="button" tabindex="0" onkeydown={()=>{}}></div>
+    
+    <div class="popup popup-nested">   
+        <div class="namapopup">
+            <div>
+                <h2><strong>Transaction Details</strong></h2>
+                <p style="margin:0; font-size: 12px; color: gray;">ID: {selectedTransaction.transaction_id}</p>
+            </div>
+            <button class="closepopup" onclick={() => showItemDetailPopup = false}>X</button>
+        </div>
+
+        <div class="table-scroll">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th style="text-align: center;">Qty</th>
+                        <th style="text-align: right;">Price</th>
+                        <th style="text-align: right;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#if selectedTransaction.items && selectedTransaction.items.length > 0}
+                        {#each selectedTransaction.items as item}
+                            <tr>
+                                <td>{item.product_name}</td>
+                                <td style="text-align: center;">{item.quantity}</td>
+                                <td style="text-align: right;">Rp {formatMoney(item.price)}</td>
+                                <td style="text-align: right;">Rp {formatMoney(item.sub_total)}</td>
+                            </tr>
+                        {/each}
+                        <tr style="background-color: #eef7ff; font-weight: bold;">
+                            <td colspan="3" style="text-align: right;">Total Amount:</td>
+                            <td style="text-align: right;">Rp {formatMoney(selectedTransaction.total_amount)}</td>
+                        </tr>
+                    {:else}
+                        <tr><td colspan="4" style="text-align:center;">No items found.</td></tr>
+                    {/if}
                 </tbody>
             </table>
         </div>
