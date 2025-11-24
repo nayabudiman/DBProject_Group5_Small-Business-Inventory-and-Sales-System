@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { env } from '$env/dynamic/public';
+    import { fetchFromGo } from '$lib/api';
 
     let showPassword = $state(false);
     let username = $state('');
@@ -14,17 +14,10 @@
         errorMessage = '';
 
         try {
-            const response = await fetch(`${env.PUBLIC_API_URL}/auth/login`, {
+            const data = await fetchFromGo('/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Gagal login');
-            }
 
             document.cookie = `session_token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
 
