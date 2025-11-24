@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { fetchFromGo } from '$lib/api';
+    import Modal from '$lib/components/Modal.svelte';
 
     interface Category {
         category_id: string;
@@ -13,8 +14,8 @@
     let currentUsername = $state('Loading...');
     let currentRole = $state('...');
 
-    let showAddPopup = $state(false);
-    let showUpdatePopup = $state(false);
+    let showAddModal = $state(false);
+    let showUpdateModal = $state(false);
 
     let addName = $state('');
     
@@ -54,7 +55,7 @@
             const newCat = res.data || res;
             categories = [...categories, newCat];
             
-            showAddPopup = false;
+            showAddModal = false;
             addName = '';
             alert("Kategori berhasil ditambahkan!");
         } catch (e: any) { alert("Gagal tambah: " + e.message); }
@@ -63,7 +64,7 @@
     function openUpdate(cat: Category) {
         updateId = cat.category_id;
         updateName = cat.category_name;
-        showUpdatePopup = true;
+        showUpdateModal = true;
     }
 
     async function handleUpdate() {
@@ -82,7 +83,7 @@
                 categories[index] = updatedCat;
             }
 
-            showUpdatePopup = false;
+            showUpdateModal = false;
             alert("Kategori berhasil diupdate!");
         } catch (e: any) { alert("Gagal update: " + e.message); }
     }
@@ -121,34 +122,12 @@
     .update:hover{ scale: 110%; }
     .delete:hover{ scale: 110%; }
 
-    .popupadd, .popupupdate { 
-        position: fixed; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
-        background-color: white; 
-        padding: 30px; 
-        border-radius: 15px; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        width: 400px; 
-        z-index: 1000; 
-    }
-
-    .overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.5); z-index: 999;
-    }
-
-    .namapopup { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  
-    .descpopup p, input { margin: 5px 0; font-size: 16px; }
-    .descpopup input { border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 100%; }
-
-    .closepopup { background-color: transparent; border: none; font-size: 20px; cursor: pointer; font-weight: bold; transition: scale 0.2s ease, color 0.1s ease; }
-    .closepopup:hover { color: #ff3b30; scale: 125% }
-
-    .save { background-color: transparent; border: none; font-size: 20px; cursor: pointer; font-weight: bold; transition: scale 0.2s ease, color 0.1s ease; }
-    .save:hover { color: #44a81d; scale: 125% }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #666; }
+    .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+    
+    .btn-submit { width: 100%; background-color: #007aff; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .btn-submit:hover { background-color: #0056b3; }
 </style>
 
 <div class="selaincategory">
@@ -158,7 +137,7 @@
             <h2 style="margin:5px 0 0 0; font-size: 18px; color: gray;"><strong>KAMU ADALAH,</strong> {currentRole}</h2>
         </div>
         <div class="ataskanan">
-            <button class="btn-header" onclick={() => showAddPopup = true}>
+            <button class="btn-header" onclick={() => showAddModal = true}>
                 + Tambah Category
             </button>
         </div>
@@ -181,34 +160,22 @@
     </div>
 </div>
 
-{#if showAddPopup}
-    <div class="overlay" onclick={() => showAddPopup = false} role="button" tabindex="0" onkeydown={()=>{}}></div>
-    
-    <div class="popupadd">   
-        <div class="namapopup">
-            <button class="closepopup" onclick={() => showAddPopup = false}>X</button>
-            <h2><strong>Insert New Category</strong></h2>
-            <button class="save" onclick={handleSave}>Save</button>
-        </div>
-        <div class="descpopup">
-            <p>Category Name: </p>
-            <input type="text" placeholder="insert name" bind:value={addName}/>
-        </div>
-    </div>
-{/if}
 
-{#if showUpdatePopup}
-    <div class="overlay" onclick={() => showUpdatePopup = false} role="button" tabindex="0" onkeydown={()=>{}}></div>
-    
-    <div class="popupupdate">   
-        <div class="namapopup">
-            <button class="closepopup" onclick={() => showUpdatePopup = false}>X</button>
-            <h2><strong>Category Name</strong></h2>
-            <button class="save" onclick={handleUpdate}>Update</button>
-        </div>
-        <div class="descpopup">
-            <p>Category Name: </p>
-            <input type="text" placeholder="insert new category" bind:value={updateName}/>
-        </div>
+<Modal show={showAddModal} title="Tambah Category Baru" onClose={() => showAddModal = false}>
+    <div class="form-group">
+        <label>Nama Category</label>
+        <input type="text" bind:value={addName} placeholder="contoh: makanan" required>
     </div>
-{/if}
+
+    <button class="btn-submit" onclick={handleSave}>Simpan Category</button>
+</Modal>
+
+
+<Modal show={showUpdateModal} title="Update Category" onClose={() => showUpdateModal = false}>
+    <div class="form-group">
+        <label>Nama Category</label>
+        <input type="text" bind:value={updateName} required>
+    </div>
+
+    <button class="btn-submit" onclick={handleUpdate}>Update Category</button>
+</Modal>
