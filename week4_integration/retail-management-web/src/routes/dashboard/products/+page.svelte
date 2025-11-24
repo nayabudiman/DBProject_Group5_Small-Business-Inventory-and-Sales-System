@@ -2,32 +2,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
     
-    .category { 
-        float: left; 
-        width: 250px; 
-        background-color: #f2f2f7; 
-        height: 100vh; 
-        padding: 20px; 
-        border-right: 1px solid #ccc; }
-    .catbutton { 
-        display: block; 
-        width: 100%; 
-        background-color: #dadade; 
-        padding: 15px; 
-        margin-bottom: 15px; 
-        border: none; 
-        border-radius: 10px; 
-        cursor: pointer; 
-        text-align: center; 
-        font-weight: bold; 
-        transition: scale 0.1s ease;
-    }
-    .catbutton:hover { 
-        background-color: #c5c5c9; 
-        scale: 105% 
-    }
-
-    .selaincategory { margin-left: 250px; padding: 40px; background-color: #ffffff; min-height: 100vh; }
+    .selaincategory {background-color: #ffffff; min-height: 100vh; }
 
     .atas {
         width: 100%;
@@ -173,15 +148,6 @@
     }
 
 </style>
-
-<div class="category">
-    <button class="catbutton">User Management</button>
-    <button class="catbutton">Categories</button>
-    <button class="catbutton">Suppliers</button>
-    <button class="catbutton">Products</button>
-    <button class="catbutton">Inventory</button>
-    <button class="catbutton">Transactions</button>
-</div>
 
 <div class="selaincategory">
     <div class="atas">
