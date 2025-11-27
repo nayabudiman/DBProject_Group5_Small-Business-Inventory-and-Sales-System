@@ -174,7 +174,7 @@ async function handleUpdate() {
                     <p class="productname">{p.product_name}</p>
                     <div class="tombolproduct">
                         <p class="quantity">{p.stock_quantity}</p>
-                        <button class="update" on:click={() => openUpdate(p)}>Update</button>
+                        <button class="update" onclick={() => openUpdate(p)}>Update</button>
                     </div>
                 </div>
             {/each}
@@ -184,22 +184,22 @@ async function handleUpdate() {
 
 <Modal show={showUpdateModal} title="Update Product" onClose={() => showUpdateModal = false}>
     <div class="form-group">
-        <label>Action:</label>
-        <select bind:value={isIncrease}>
+        <label for="action-select">Action:</label>
+        <select id="action-select" bind:value={isIncrease}>
             <option value={true}>Tambah Stock</option>
             <option value={false}>Kurangi Stock</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label>Jumlah Stock:</label>
-        <input type="number" bind:value={updateQuantity} placeholder="Jumlah stock"/>
+        <label for="jumlah-stock">Jumlah Stock:</label>
+        <input id="jumlah-stock" type="number" bind:value={updateQuantity} placeholder="Jumlah stock"/>
     </div>
 
     <div class="form-group">
-        <label>Alasan:</label>
-        <input type="text" bind:value={updateReason} placeholder="Masukkan alasan"/>
+        <label for="alasan-input">Alasan:</label>
+        <input id="alasan-input" type="text" bind:value={updateReason} placeholder="Masukkan alasan"/>
     </div>
 
-    <button class="btn-submit" on:click={handleUpdate}>Update Stock</button>
+    <button class="btn-submit" onclick={handleUpdate}>Update Stock</button>
 </Modal>

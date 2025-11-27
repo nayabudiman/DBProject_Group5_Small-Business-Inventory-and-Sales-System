@@ -29,6 +29,7 @@
         total_amount: string;
         created_at: string;
         items: TransactionItem[];
+        user_id?: string;
         username?: string;
     }
 
@@ -307,7 +308,7 @@
                         <tr>
                             <td>{formatDate(trx.created_at)}</td>
                             <td>Rp {formatMoney(trx.total_amount)}</td>
-                            <td>{getUsernameById(trx.user_id)}</td>
+                            <td>{getUsernameById(trx.user_id ?? "")}</td>
                             <td style="text-align: center;">
                                 <button class="btn-detail" onclick={() => openItemDetails(trx)}>
                                     Details

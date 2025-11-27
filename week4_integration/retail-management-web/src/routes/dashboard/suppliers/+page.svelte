@@ -247,18 +247,18 @@
 <Modal show={showAddModal} title="Tambah Supplier Baru" onClose={() => showAddModal = false}>
     
     <div class="form-group">
-        <label>Nama Supplier</label>
-        <input bind:value={newName} placeholder="nama" />
+        <label for="newName">Nama Supplier</label>
+        <input id="newName" bind:value={newName} placeholder="nama" />
     </div>
 
     <div class="form-group">
-        <label>Nomor Telepon</label>
-        <input bind:value={newPhone} placeholder="contoh: 08123456789" />
+        <label for="newPhone">Nomor Telepon</label>
+        <input id="newPhone" bind:value={newPhone} placeholder="contoh: 08123456789" />
     </div>
 
     <div class="form-group">
-        <label>Email</label>
-        <input bind:value={newEmail} placeholder="contoh: supplier@mail.com" />
+        <label for="newEmail">Email</label>
+        <input id="newEmail" bind:value={newEmail} placeholder="contoh: supplier@mail.com" />
     </div>
 
     <button class="btn-submit" onclick={handleSave}>Simpan Supplier</button>
@@ -269,18 +269,18 @@
 <Modal show={showUpdateModal} title="Update Supplier" onClose={() => showUpdateModal = false}>
     
     <div class="form-group">
-        <label>Nama Supplier</label>
-        <input bind:value={updateName} />
+        <label for="updateName">Nama Supplier</label>
+        <input id="updateName" bind:value={updateName} />
     </div>
 
     <div class="form-group">
-        <label>Nomor Telepon</label>
-        <input bind:value={updatePhone} />
+        <label for="updatePhone">Nomor Telepon</label>
+        <input id="updatePhone" bind:value={updatePhone} />
     </div>
 
     <div class="form-group">
-        <label>Email</label>
-        <input bind:value={updateEmail} />
+        <label for="updateEmail">Email</label>
+        <input id="updateEmail" bind:value={updateEmail} />
     </div>
 
     <button class="btn-submit" onclick={handleUpdate}>Update Supplier</button>

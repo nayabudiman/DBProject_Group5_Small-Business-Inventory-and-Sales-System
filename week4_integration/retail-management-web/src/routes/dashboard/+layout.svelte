@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
     let { children } = $props();
 
+    // @ts-ignore
     function handleLogout(event) {
         event.preventDefault();
         document.cookie = "session_token=; path=/; max-age=0; SameSite=Lax";

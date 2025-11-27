@@ -1,6 +1,5 @@
 <style>
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
     
     .category { 
         float: left; 

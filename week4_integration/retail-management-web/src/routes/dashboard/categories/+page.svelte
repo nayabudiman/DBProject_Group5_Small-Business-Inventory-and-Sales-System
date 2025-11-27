@@ -163,8 +163,8 @@
 
 <Modal show={showAddModal} title="Tambah Category Baru" onClose={() => showAddModal = false}>
     <div class="form-group">
-        <label>Nama Category</label>
-        <input type="text" bind:value={addName} placeholder="contoh: makanan" required>
+        <label for="add-category-name">Nama Category</label>
+        <input id="add-category-name" type="text" bind:value={addName} placeholder="contoh: makanan" required>
     </div>
 
     <button class="btn-submit" onclick={handleSave}>Simpan Category</button>
@@ -173,8 +173,8 @@
 
 <Modal show={showUpdateModal} title="Update Category" onClose={() => showUpdateModal = false}>
     <div class="form-group">
-        <label>Nama Category</label>
-        <input type="text" bind:value={updateName} required>
+        <label for="update-category-name">Nama Category</label>
+        <input id="update-category-name" type="text" bind:value={updateName} required>
     </div>
 
     <button class="btn-submit" onclick={handleUpdate}>Update Category</button>
