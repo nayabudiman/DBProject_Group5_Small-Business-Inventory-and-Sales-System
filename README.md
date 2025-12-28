@@ -2,6 +2,9 @@
 
 **Retail Management** adalah aplikasi manajemen ritel berbasis web yang dirancang untuk membantu UMKM mendigitalisasi proses pencatatan transaksi dan pengelolaan inventaris secara aman dan terstruktur. Proyek ini dikembangkan sebagai tugas akhir mata kuliah Basis Data Semester Gasal 2025/2026 di Departemen Ilmu Komputer dan Elektronika, Universitas Gadjah Mada.
 
+## Video Presentasi Demo Project
+[Video Presentasi Demo Project](https://youtu.be/9s7H6Kd8Spk)
+
 ## Anggota Kelompok 5
 
 * **Aloysius Pijar Hutama Indrianto** (24/534591/PA/22675) 
